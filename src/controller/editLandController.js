@@ -17,7 +17,9 @@ export default function editLandController(req, res) {
 	matchedLand.capital = capital || matchedLand.capital;
 	matchedLand.language = language || matchedLand.language;
 
-	db.editLand(name, matchedLand.population, matchedLand.capital, matchedLand.language);
+	const edited = db.editLand(name, matchedLand.population, matchedLand.capital, matchedLand.language);
+
+	if (!edited) return res.status(500).json({ error: "Något gick fel!" });
 
 	res.status(200).json({ message: "Landet har uppdaterats!", data: { name, ...matchedLand } });
 }
